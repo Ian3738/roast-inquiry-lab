@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>焙度實驗室｜烘焙曲線探究學習</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="overrides.css" />
+</head>
+<body>
+  <div class="paper-grain"></div>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">焙</span><div><p class="eyebrow">COFFEE ROASTING LAB</p><h1>焙度實驗室</h1></div></div>
+      <div class="top-actions"><span class="session-dot"></span><span id="sessionStatus">準備開始實驗</span><button class="ghost-btn" id="resetBtn">↺ 重設</button></div>
+    </header>
+
+    <section class="hero-copy">
+      <div><p class="kicker">探究任務 01 ／ 觀察・推論・驗證</p><h2>一條曲線，讀懂豆子的變化。</h2><p class="subtitle">把每個溫度轉折變成問題，練習用證據描述一杯咖啡的風味。</p></div>
+      <div class="batch-card"><span>本次批次</span><strong>衣索比亞・水洗</strong><small>250 g ／ 目標：淺焙</small></div>
+    </section>
+
+    <section class="workspace-grid">
+      <div class="left-column">
+        <div class="panel curve-panel">
+          <div class="panel-heading"><div><span class="section-label">LIVE ROAST CURVE</span><h3>烘焙曲線</h3></div><div class="legend"><span><i class="legend-line bean"></i>豆溫 BT</span><span><i class="legend-line env"></i>環境溫 ET</span><span><i class="legend-dash"></i>RoR</span></div></div>
+          <div class="chart-wrap"><canvas id="roastChart" aria-label="烘焙曲線圖"></canvas><div class="chart-tip" id="chartTip">將滑鼠移到曲線上查看數值</div></div>
+          <div class="metric-row"><div class="metric"><span>經過時間</span><strong id="timeReadout">00:00</strong></div><div class="metric accent"><span>BT 豆溫</span><strong><b id="btReadout">24</b>°C</strong></div><div class="metric"><span>RoR 上升率</span><strong><b id="rorReadout">0.0</b>°C/min</strong></div><div class="metric"><span>目前階段</span><strong id="phaseReadout">投豆</strong></div></div>
+        </div>
+
+        <div class="control-panel panel"><div class="control-copy"><span class="section-label">SIMULATE PROBE</span><h3>溫度探針控制</h3><p>拖曳滑桿模擬目前豆溫，觀察曲線如何回應。</p></div><div class="controls"><div class="slider-line"><span>BT</span><input id="tempSlider" type="range" min="24" max="220" value="24"><output id="sliderOutput">24°C</output></div><div class="button-row"><button class="primary-btn" id="recordBtn">▶ 開始記錄</button><button class="event-btn" data-event="投豆">＋ 投豆</button><button class="event-btn" data-event="一爆">＋ 一爆</button><button class="event-btn" data-event="排豆">＋ 排豆</button></div></div></div>
+
+        <div class="events-panel panel"><div class="panel-heading"><div><span class="section-label">OBSERVATION LOG</span><h3>事件紀錄</h3></div><span class="count-badge" id="eventCount">3 EVENTS</span></div><div class="event-list" id="eventList"></div></div>
+      </div>
+
+      <aside class="right-column">
+        <div class="inquiry-card"><div class="card-top"><span class="section-label">INQUIRY GUIDE</span><span class="step-count" id="stepCount">1 / 4</span></div><div class="step-bar"><i id="stepProgress"></i></div><div class="question-mark">?</div><h3 id="questionTitle">先觀察：曲線從哪裡開始改變？</h3><p id="questionText">請找出回溫點。它代表探針從環境溫度回到上升的轉折，你猜這個轉折和什麼有關？</p><div class="prompt-box"><span>寫下你的假設</span><textarea id="hypothesis" placeholder="例如：因為豆子吸收了熱量，所以溫度開始回升……"></textarea></div><div class="inquiry-actions"><button class="text-btn" id="hintBtn">看提示</button><button class="next-btn" id="nextBtn">下一步 →</button></div><p class="hint" id="hintText">提示：回溫點通常發生在投豆後不久，先看曲線最低點。</p></div>
+        <div class="insight-panel panel"><div class="panel-heading"><div><span class="section-label">ROAST NOTES</span><h3>我的觀察筆記</h3></div><span class="pen-icon">✎</span></div><textarea class="notes" placeholder="記錄香氣、聲音、顏色或你發現的異常……"></textarea><div class="tag-row"><button class="tag active">花香</button><button class="tag">柑橘</button><button class="tag">焦糖</button><button class="tag">堅果</button></div></div>
+        <div class="phase-panel panel"><span class="section-label">ROAST PHASES</span><div class="phase-list"><div class="phase active"><b>01</b><span>投豆・脫水</span><em id="phaseOneTime">00:00</em></div><div class="phase"><b>02</b><span>梅納反應</span><em>—</em></div><div class="phase"><b>03</b><span>一爆・發展</span><em>—</em></div><div class="phase"><b>04</b><span>排豆冷卻</span><em>—</em></div></div></div>
+      </aside>
+    </section>
+    <footer><span>© 2026 焙度實驗室</span><span>每一個數據，都是下一個問題的開始。</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
